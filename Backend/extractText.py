@@ -1,4 +1,15 @@
+import base64
+import hashlib
+from Crypto.Cipher import DES
 from PIL import Image
+
+password="Password"
+salt = b'\x28\xAB\xBC\xCD\xDE\xEF\x00\x33'
+key = password.encode('utf-8')+salt
+m = hashlib.md5(key)
+key = m.digest()
+(dk, iv) = (key[:8], key[8:])
+crypter = DES.new(dk, DES.MODE_CBC, iv)
 
 encrypt_image=Image.open('encrypted_image.png')
 
@@ -21,4 +32,9 @@ for row in range(encrypt_image.size[0]):
     
 encrypt_image.close()
 
-print("The hidden message is : ", msg)
+print("The encrypted message is : ", msg)
+
+encrypted_string = msg
+encrypted_string = base64.b32decode(encrypted_string)
+decrypted_string = crypter.decrypt(encrypted_string)
+print("The original message was : ",decrypted_string.decode('utf-8'))
