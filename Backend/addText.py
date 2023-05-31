@@ -1,3 +1,6 @@
+import base32hex 
+import hashlib
+from Crypto.Cipher import DES
 from PIL import Image
 
 # making the image object
@@ -13,6 +16,23 @@ encrypt_pixelMap = encrypt_image.load()
 msg = input("Enter the message : ")
 msg_index=0
 
+password = "Password"
+salt = b'\x28\xAB\xBC\xCD\xDE\xEF\x00\x33'
+key = password.encode('utf-8') + salt
+m = hashlib.md5(key)
+key = m.digest()
+(dk, iv) = (key[:8], key[8:])
+crypter = DES.new(dk, DES.MODE_CBC, iv)
+
+print("The message is : ", msg)
+padding_length = 8 - len(msg)%8
+padding = bytes([padding_length] * padding_length)
+msg = msg.encode('utf-8')
+msg += padding
+ciphertext = crypter.encrypt(msg)
+encode_string = base32hex.b32encode(ciphertext)
+print("The encodeed strin is: ",encode_string)
+msg = encode_string 
 msg_len=len(msg)
 
 for row in range(original_image.size[0]):
