@@ -1,4 +1,5 @@
-import base32hex 
+import base64 
+import base32hex
 import hashlib
 from Crypto.Cipher import DES
 from PIL import Image
@@ -30,9 +31,9 @@ padding = bytes([padding_length] * padding_length)
 msg = msg.encode('utf-8')
 msg += padding
 ciphertext = crypter.encrypt(msg)
-encode_string = base32hex.b32encode(ciphertext)
-print("The encodeed strin is: ",encode_string)
-msg = encode_string 
+encode_string = base64.b32encode(ciphertext)
+print("The encoded string is: ",encode_string.decode('utf-8'))
+msg = encode_string.decode('utf-8')
 msg_len=len(msg)
 
 for row in range(original_image.size[0]):
