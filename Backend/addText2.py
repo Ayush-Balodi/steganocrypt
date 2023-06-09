@@ -26,11 +26,12 @@ encrypt_pixelMap = encrypt_image.load()
 
 message = input("Enter the message: ")
 password = "Password"
+
+
+message = encrypt_message(message, password)
 msg_len = len(message)
 msg_index = 0
-
-encrypted_message = encrypt_message(message, password)
-print("Encrypted message:", encrypted_message)
+print("Encrypted message:",message)
 
 for row in range(original_image.size[0]):
     for col in range(original_image.size[1]):
