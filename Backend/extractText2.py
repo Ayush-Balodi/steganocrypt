@@ -1,4 +1,5 @@
 import hashlib
+from PIL import Image
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import unpad
 import base64
@@ -13,20 +14,35 @@ def decrypt_message(ciphertext, password):
     # Split the IV and encrypted message
     iv = iv_and_message[:AES.block_size]
     encrypted_message = iv_and_message[AES.block_size:]
-
-    # Create AES cipher object with CBC mode
     cipher = AES.new(key, AES.MODE_CBC, iv)
 
     # Decrypt the encrypted message
     decrypted_message = cipher.decrypt(encrypted_message)
-
-    # Unpad the decrypted message
     unpadded_message = unpad(decrypted_message, AES.block_size)
-
     return unpadded_message.decode('utf-8')
 
-ciphertext = input("Enter the ciphertext: ")
+encrypted_image=Image.open('encrypted_image.png')
+encrypted_pixelMap=encrypted_image.load()
 
+message=""
+msg_index = 0
+
+for row in range(encrypted_image.size[0]):
+    for col in range(encrypted_image.size[1]):
+
+        list = encrypted_pixelMap[row, col]
+        r= list[0]
+
+        if row==0 and col==0:
+            msg_len=r
+        elif msg_len>msg_index:
+            message = message+chr(r)
+            msg_index = msg_index+1
+
+encrypted_image.close()
+
+ciphertext = message
+print("The cipher text is: ",ciphertext)
 password="Password"
 decrypted_message = decrypt_message(ciphertext, password)
 print("Decrypted message:", decrypted_message)
