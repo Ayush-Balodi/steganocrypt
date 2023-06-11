@@ -1,7 +1,10 @@
 import base64
 import hashlib
+import time
 from Crypto.Cipher import DES
 from PIL import Image
+
+start_time=time.time()
 
 password="Password"
 salt = b'\x28\xAB\xBC\xCD\xDE\xEF\x00\x33'
@@ -38,3 +41,6 @@ encrypted_string = msg
 encrypted_string = base64.b32decode(encrypted_string)
 decrypted_string = crypter.decrypt(encrypted_string)
 print("The original message was : ",decrypted_string.decode('utf-8'))
+end_time = time.time()
+
+print("Execution time is: ", (end_time-start_time))

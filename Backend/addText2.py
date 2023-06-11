@@ -1,9 +1,11 @@
 import hashlib
+import time
 from PIL import Image
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 import base64
 
+start_time = time.time()
 def encrypt_message(message, password):
 
     salt = b'\x28\xAB\xBC\xCD\xDE\xEF\x00\x33'
@@ -57,3 +59,6 @@ encrypt_image.show()
 
 encrypt_image.save("encrypted_image.png")
 encrypt_image.close()
+end_time = time.time()
+
+print("Execution time is: ",(end_time-start_time))

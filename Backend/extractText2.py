@@ -1,9 +1,11 @@
 import hashlib
+import time
 from PIL import Image
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import unpad
 import base64
 
+start_time=time.time()
 def decrypt_message(ciphertext, password):
     salt = b'\x28\xAB\xBC\xCD\xDE\xEF\x00\x33'
     key = hashlib.md5(password.encode('utf-8') + salt).digest()
@@ -46,3 +48,5 @@ print("The cipher text is: ",ciphertext)
 password="Password"
 decrypted_message = decrypt_message(ciphertext, password)
 print("Decrypted message:", decrypted_message)
+end_time=time.time()
+print("Execution time is: ", (end_time-start_time))
