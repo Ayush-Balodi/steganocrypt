@@ -1,9 +1,11 @@
 import hashlib
+import time
 from PIL import Image
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 import base64
 
+start_time = time.time()
 def encrypt_message(message, password):
 
     salt = b'\x28\xAB\xBC\xCD\xDE\xEF\x00\x33'
@@ -26,11 +28,12 @@ encrypt_pixelMap = encrypt_image.load()
 
 message = input("Enter the message: ")
 password = "Password"
+
+
+message = encrypt_message(message, password)
 msg_len = len(message)
 msg_index = 0
-
-encrypted_message = encrypt_message(message, password)
-print("Encrypted message:", encrypted_message)
+print("Encrypted message:",message)
 
 for row in range(original_image.size[0]):
     for col in range(original_image.size[1]):
@@ -56,3 +59,6 @@ encrypt_image.show()
 
 encrypt_image.save("encrypted_image.png")
 encrypt_image.close()
+end_time = time.time()
+
+print("Execution time is: ",(end_time-start_time))

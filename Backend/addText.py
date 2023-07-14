@@ -1,9 +1,10 @@
 import base64 
-# import base32hex
+import time
 import hashlib
 from Crypto.Cipher import DES
 from PIL import Image
 
+start_time = time.time()
 # making the image object
 original_image = Image.open('origin.png')
 
@@ -61,3 +62,6 @@ encrypt_image.show()
 
 encrypt_image.save("encrypted_image.png")
 encrypt_image.close()
+
+end_time = time.time()
+print("Execution time is: ", (end_time-start_time))
