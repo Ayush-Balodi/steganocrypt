@@ -11,12 +11,10 @@ def encrypt_message(message, password):
     salt = b'\x28\xAB\xBC\xCD\xDE\xEF\x00\x33'
     key = hashlib.md5(password.encode('utf-8') + salt).digest()
 
-    # Create the cipher in CBC mode
     cipher = AES.new(key, AES.MODE_CBC)
     padded_message = pad(message.encode('utf-8'), AES.block_size)
     encrypted_message = cipher.encrypt(padded_message)
 
-    # Concatenate the IV and encrypted message
     iv_and_message = cipher.iv + encrypted_message
     return base64.b64encode(iv_and_message).decode('utf-8')
 
